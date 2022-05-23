@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import xyz.stasiak.boardgamecollector.databinding.FragmentMainBinding
+import java.time.Instant
+import java.util.*
 
 class MainFragment : Fragment() {
 
@@ -30,6 +32,16 @@ class MainFragment : Fragment() {
         binding.mainBtnErase.setOnClickListener {
             findNavController().navigate(R.id.action_MainFragment_to_ConfigFragment)
         }
+
+        binding.mainHello.text = getString(R.string.main_hello, "World")
+        binding.mainNumOfGames.text = getString(R.string.main_num_of_games, 3)
+        binding.mainNumOfExtensions.text = getString(R.string.main_num_of_extensions, 4)
+        binding.mainDateOfLastSync.text = getString(
+            R.string.main_date_of_last_sync, Date.from(
+                Instant.now()
+            )
+        )
+
     }
 
     override fun onDestroyView() {
