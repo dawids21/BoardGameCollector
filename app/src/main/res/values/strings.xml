@@ -16,5 +16,6 @@
     <!-- Config fragment -->
     <string name="config_fragment_label">Configuration</string>
     <string name="config_btn_start">Start</string>
+    <string name="config_name_hint">Name</string>
 
 </resources>
