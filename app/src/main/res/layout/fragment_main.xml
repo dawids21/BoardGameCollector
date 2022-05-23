@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainFragment">
+
+    <TextView
+        android:id="@+id/main_hello"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_hello"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/main_num_of_games"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_num_of_games"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/main_btn_list_of_games"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_button_list_of_games" />
+
+        <TextView
+            android:id="@+id/main_num_of_extensions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_num_of_extensions"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/main_btn_list_of_extensions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_button_list_of_extensions" />
+
+        <TextView
+            android:id="@+id/main_date_of_last_sync"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_date_of_last_sync"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/main_btn_start_syncing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_button_sync" />
+
+        <Button
+            android:id="@+id/main_btn_erase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_button_erase" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
