@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/MainFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/MainFragment"
         android:name="xyz.stasiak.boardgamecollector.MainFragment"
         android:label="@string/main_fragment_label"
         tools:layout="@layout/fragment_main">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_MainFragment_to_ConfigFragment"
+            app:destination="@id/ConfigFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="xyz.stasiak.boardgamecollector.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/ConfigFragment"
+        android:name="xyz.stasiak.boardgamecollector.ConfigFragment"
+        android:label="@string/config_fragment_label"
+        tools:layout="@layout/fragment_config">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_ConfigFragment_to_MainFragment"
+            app:destination="@id/MainFragment" />
     </fragment>
 </navigation>
