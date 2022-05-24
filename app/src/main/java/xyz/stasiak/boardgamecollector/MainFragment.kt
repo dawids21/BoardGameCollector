@@ -1,5 +1,6 @@
 package xyz.stasiak.boardgamecollector
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,8 +33,19 @@ class MainFragment : Fragment() {
         binding.mainBtnErase.setOnClickListener {
             findNavController().navigate(R.id.action_MainFragment_to_ConfigFragment)
         }
+    }
 
-        binding.mainHello.text = getString(R.string.main_hello, "World")
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        val userNameDbHandler = UserNameDbHandler(context, null)
+        val userName = userNameDbHandler.getName()
+
+        if (userName != null) {
+            binding.mainHello.text = getString(R.string.main_hello, userName.name)
+        } else {
+            binding.mainHello.text = getString(R.string.main_hello, "World")
+        }
         binding.mainNumOfGames.text = getString(R.string.main_num_of_games, 3)
         binding.mainNumOfExtensions.text = getString(R.string.main_num_of_extensions, 4)
         binding.mainDateOfLastSync.text = getString(
@@ -41,7 +53,6 @@ class MainFragment : Fragment() {
                 Instant.now()
             )
         )
-
     }
 
     override fun onDestroyView() {
