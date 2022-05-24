@@ -43,4 +43,9 @@ class UserNameDbHandler(
         return userName
     }
 
+    fun deleteName() {
+        writableDatabase.execSQL("DELETE FROM config")
+        writableDatabase.close()
+    }
+
 }
