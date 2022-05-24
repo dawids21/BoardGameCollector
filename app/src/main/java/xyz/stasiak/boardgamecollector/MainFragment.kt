@@ -45,6 +45,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.mainBtnErase.setOnClickListener {
+            userNameDbHandler.deleteName()
             findNavController().navigate(R.id.action_MainFragment_to_ConfigFragment)
         }
     }

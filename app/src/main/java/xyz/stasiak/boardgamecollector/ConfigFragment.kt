@@ -22,7 +22,6 @@ class ConfigFragment : Fragment() {
     ): View {
 
         _binding = FragmentConfigBinding.inflate(inflater, container, false)
-        binding.configName.setText(userNameDbHandler.getName()?.name)
         return binding.root
 
     }
