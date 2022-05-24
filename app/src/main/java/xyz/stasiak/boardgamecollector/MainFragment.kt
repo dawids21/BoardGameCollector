@@ -16,7 +16,7 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private var _boardGameCollectorDbHandler: BoardGameCollectorDbHandler? = null
-    private val userNameDbHandler get() = _boardGameCollectorDbHandler!!
+    private val boardGameCollectorDbHandler get() = _boardGameCollectorDbHandler!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +24,7 @@ class MainFragment : Fragment() {
     ): View {
 
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        val userName = userNameDbHandler.getName()
+        val userName = boardGameCollectorDbHandler.getName()
 
         if (userName != null) {
             binding.mainHello.text = getString(R.string.main_hello, userName.name)
@@ -49,7 +49,7 @@ class MainFragment : Fragment() {
         }
 
         binding.mainBtnErase.setOnClickListener {
-            userNameDbHandler.deleteName()
+            boardGameCollectorDbHandler.deleteName()
             findNavController().navigate(R.id.action_MainFragment_to_ConfigFragment)
         }
     }

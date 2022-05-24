@@ -14,7 +14,7 @@ class ConfigFragment : Fragment() {
     private var _binding: FragmentConfigBinding? = null
     private val binding get() = _binding!!
     private var _boardGameCollectorDbHandler: BoardGameCollectorDbHandler? = null
-    private val userNameDbHandler get() = _boardGameCollectorDbHandler!!
+    private val boardGameCollectorDbHandler get() = _boardGameCollectorDbHandler!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +30,7 @@ class ConfigFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.configBtnStart.setOnClickListener {
-            userNameDbHandler.saveName(UserName(binding.configName.text.toString()))
+            boardGameCollectorDbHandler.saveName(UserName(binding.configName.text.toString()))
             findNavController().navigate(R.id.action_ConfigFragment_to_MainFragment)
         }
     }

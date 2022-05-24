@@ -14,7 +14,7 @@ class ListOfGamesFragment : Fragment() {
     private var _binding: FragmentListOfGamesBinding? = null
     private val binding get() = _binding!!
     private var _boardGameCollectorDbHandler: BoardGameCollectorDbHandler? = null
-    private val userNameDbHandler get() = _boardGameCollectorDbHandler!!
+    private val boardGameCollectorDbHandler get() = _boardGameCollectorDbHandler!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
