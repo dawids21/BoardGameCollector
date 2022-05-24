@@ -24,8 +24,7 @@ class BoardGameCollectorDbHandler(
                     "original_title TEXT," +
                     "year INTEGER," +
                     "bgg_id INTEGER," +
-                    "rank INTEGER," +
-                    "image BLOB" +
+                    "rank INTEGER" +
                     ")"
         )
     }
@@ -68,4 +67,41 @@ class BoardGameCollectorDbHandler(
         return count == 1
     }
 
+    fun addGame(product: Game) {
+        val values = ContentValues()
+        values.put("title", product.title)
+        values.put("original_title", product.originalTitle)
+        values.put("year", product.year)
+        values.put("bgg_id", product.bggId)
+        values.put("rank", product.rank)
+        writableDatabase.insert("games", null, values)
+        writableDatabase.close()
+    }
+
+    fun findGames(): List<Game> {
+        val query = "SELECT * FROM games"
+        val cursor = readableDatabase.rawQuery(query, null)
+        val games: ArrayList<Game> = ArrayList()
+        if (cursor.moveToNext()) {
+            do {
+                val game = Game(
+                    cursor.getLong(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getInt(3),
+                    cursor.getLong(4),
+                    cursor.getInt(5)
+                )
+                games.add(game)
+            } while (cursor.moveToNext())
+            cursor.close()
+        }
+        writableDatabase.close()
+        return games
+    }
+
+    fun deleteGame(game_id: Long) {
+        writableDatabase.delete("games", "game_id = ?", arrayOf(game_id.toString()))
+        writableDatabase.close()
+    }
 }
