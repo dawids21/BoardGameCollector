@@ -104,4 +104,9 @@ class BoardGameCollectorDbHandler(
         writableDatabase.delete("games", "game_id = ?", arrayOf(game_id.toString()))
         writableDatabase.close()
     }
+
+    fun deleteGames() {
+        writableDatabase.execSQL("DELETE FROM games")
+        writableDatabase.close()
+    }
 }
