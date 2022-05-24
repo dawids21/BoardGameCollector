@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import xyz.stasiak.boardgamecollector.databinding.FragmentListOfGamesBinding
 
 class ListOfGamesFragment : Fragment() {
@@ -27,10 +26,6 @@ class ListOfGamesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.listOfGamesBtnBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
     }
 
     override fun onAttach(context: Context) {

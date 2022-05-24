@@ -20,5 +20,10 @@
 
     <!-- List of games fragment -->
     <string name="list_of_games_fragment">List of games</string>
+    <string name="games_table_id_column">ID</string>
+    <string name="games_table_image_column">Image</string>
+    <string name="games_table_title_column">Title</string>
+    <string name="games_table_year_column">Year</string>
+    <string name="games_table_rank_column">Rank</string>
 
 </resources>
