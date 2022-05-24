@@ -11,16 +11,28 @@ class UserNameDbHandler(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
         private const val DATABASE_NAME = "boardGameCollectorDB"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("CREATE TABLE config (name TEXT)")
+        db.execSQL(
+            "CREATE TABLE games (" +
+                    "game_id INTEGER PRIMARY KEY," +
+                    "title TEXT," +
+                    "original_title TEXT," +
+                    "year INTEGER," +
+                    "bgg_id INTEGER," +
+                    "rank INTEGER," +
+                    "image BLOB" +
+                    ")"
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS config")
+        db.execSQL("DROP TABLE IF EXISTS games")
         onCreate(db)
     }
 
