@@ -45,6 +45,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.mainBtnListOfGames.setOnClickListener {
+            boardGameCollectorDbHandler.addGame(Game(null, "Karawana", "Caravan", 2020, 123456, 2))
             findNavController().navigate(R.id.action_MainFragment_to_ListOfGamesFragment)
         }
 
