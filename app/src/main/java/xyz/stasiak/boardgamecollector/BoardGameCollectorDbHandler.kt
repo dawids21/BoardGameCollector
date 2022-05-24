@@ -67,13 +67,13 @@ class BoardGameCollectorDbHandler(
         return count == 1
     }
 
-    fun addGame(product: Game) {
+    fun addGame(game: Game) {
         val values = ContentValues()
-        values.put("title", product.title)
-        values.put("original_title", product.originalTitle)
-        values.put("year", product.year)
-        values.put("bgg_id", product.bggId)
-        values.put("rank", product.rank)
+        values.put("title", game.title)
+        values.put("original_title", game.originalTitle)
+        values.put("year", game.year)
+        values.put("bgg_id", game.bggId)
+        values.put("rank", game.rank)
         writableDatabase.insert("games", null, values)
         writableDatabase.close()
     }
@@ -100,8 +100,8 @@ class BoardGameCollectorDbHandler(
         return games
     }
 
-    fun deleteGame(game_id: Long) {
-        writableDatabase.delete("games", "game_id = ?", arrayOf(game_id.toString()))
+    fun deleteGame(gameId: Long) {
+        writableDatabase.delete("games", "game_id = ?", arrayOf(gameId.toString()))
         writableDatabase.close()
     }
 
