@@ -14,8 +14,9 @@ import java.util.*
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
-
     private val binding get() = _binding!!
+    private var _userNameDbHandler: UserNameDbHandler? = null
+    private val userNameDbHandler get() = _userNameDbHandler!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,22 +24,6 @@ class MainFragment : Fragment() {
     ): View {
 
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding.root
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.mainBtnErase.setOnClickListener {
-            findNavController().navigate(R.id.action_MainFragment_to_ConfigFragment)
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        val userNameDbHandler = UserNameDbHandler(context, null)
         val userName = userNameDbHandler.getName()
 
         if (userName != null) {
@@ -53,6 +38,20 @@ class MainFragment : Fragment() {
                 Instant.now()
             )
         )
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.mainBtnErase.setOnClickListener {
+            findNavController().navigate(R.id.action_MainFragment_to_ConfigFragment)
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        _userNameDbHandler = UserNameDbHandler(context, null)
     }
 
     override fun onDestroyView() {
