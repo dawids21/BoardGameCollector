@@ -15,8 +15,8 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private var _userNameDbHandler: UserNameDbHandler? = null
-    private val userNameDbHandler get() = _userNameDbHandler!!
+    private var _boardGameCollectorDbHandler: BoardGameCollectorDbHandler? = null
+    private val userNameDbHandler get() = _boardGameCollectorDbHandler!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +56,7 @@ class MainFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        _userNameDbHandler = UserNameDbHandler(context, null)
+        _boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
     }
 
     override fun onDestroyView() {

@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
-        val userNameDbHandler = UserNameDbHandler(this, null)
-        if (userNameDbHandler.isNameSet()) {
+        val boardGameCollectorDbHandler = BoardGameCollectorDbHandler(this, null)
+        if (boardGameCollectorDbHandler.isNameSet()) {
             navController.navigate(R.id.action_ConfigFragment_to_MainFragment)
         }
         appBarConfiguration = AppBarConfiguration(navController.graph)
