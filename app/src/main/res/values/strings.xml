@@ -18,4 +18,7 @@
     <string name="config_btn_start">Start</string>
     <string name="config_name_hint">Name</string>
 
+    <!-- List of games fragment -->
+    <string name="list_of_games_fragment">List of games</string>
+
 </resources>

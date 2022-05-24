@@ -16,6 +16,9 @@
             app:destination="@id/ConfigFragment"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_MainFragment_to_ListOfGamesFragment"
+            app:destination="@id/ListOfGamesFragment" />
     </fragment>
     <fragment
         android:id="@+id/ConfigFragment"
@@ -29,4 +32,9 @@
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/ListOfGamesFragment"
+        android:name="xyz.stasiak.boardgamecollector.ListOfGamesFragment"
+        android:label="@string/list_of_games_fragment"
+        tools:layout="@layout/fragment_list_of_games" />
 </navigation>

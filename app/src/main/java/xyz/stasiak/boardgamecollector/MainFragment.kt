@@ -44,6 +44,10 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.mainBtnListOfGames.setOnClickListener {
+            findNavController().navigate(R.id.action_MainFragment_to_ListOfGamesFragment)
+        }
+
         binding.mainBtnErase.setOnClickListener {
             userNameDbHandler.deleteName()
             findNavController().navigate(R.id.action_MainFragment_to_ConfigFragment)
