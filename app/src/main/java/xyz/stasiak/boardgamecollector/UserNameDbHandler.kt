@@ -32,7 +32,7 @@ class UserNameDbHandler(
     }
 
     fun getName(): UserName? {
-        val cursor = writableDatabase.rawQuery("SELECT * FROM config", null)
+        val cursor = readableDatabase.rawQuery("SELECT * FROM config", null)
         var userName: UserName? = null
         if (cursor.moveToFirst()) {
             val name = cursor.getString(0)
@@ -46,6 +46,14 @@ class UserNameDbHandler(
     fun deleteName() {
         writableDatabase.execSQL("DELETE FROM config")
         writableDatabase.close()
+    }
+
+    fun isNameSet(): Boolean {
+        val cursor = readableDatabase.rawQuery("SELECT * FROM config", null)
+        val count = cursor.count
+        cursor.close()
+        readableDatabase.close()
+        return count == 1
     }
 
 }
