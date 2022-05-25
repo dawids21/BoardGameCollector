@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var boardGameCollectorDbHandler: BoardGameCollectorDbHandler
 
+    private var numOfGames = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,16 +56,16 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    fun downloadData(mainFragment: MainFragment) {
+    fun downloadData() {
         val userName = boardGameCollectorDbHandler.getName()
         if (userName != null) {
-            val gamesDownloader = GamesDownloader(mainFragment)
+            val gamesDownloader = GamesDownloader()
             gamesDownloader.execute(userName.name)
         }
     }
 
     @Suppress("DEPRECATION")
-    private inner class GamesDownloader(val mainFragment: MainFragment) :
+    private inner class GamesDownloader() :
         AsyncTask<String, Int, String>() {
 
         override fun onPostExecute(result: String?) {
@@ -207,7 +209,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             games.forEach { boardGameCollectorDbHandler.addGame(it) }
-            mainFragment.updateStats(boardGameCollectorDbHandler.countGames(), 4)
+            numOfGames = boardGameCollectorDbHandler.countGames()
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+            navHostFragment?.childFragmentManager?.fragments?.forEach { fragment ->
+                if (fragment is MainFragment) {
+                    fragment.update(numOfGames, 4)
+                }
+            }
             return "success"
         }
     }

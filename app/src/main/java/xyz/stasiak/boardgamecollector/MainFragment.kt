@@ -29,7 +29,7 @@ class MainFragment : Fragment() {
         } else {
             binding.mainHello.text = getString(R.string.main_hello, "World")
         }
-        updateStats(boardGameCollectorDbHandler.countGames(), 4)
+        update(boardGameCollectorDbHandler.countGames(), 4)
         binding.mainDateOfLastSync.text = getString(
             R.string.main_date_of_last_sync, Date.from(
                 Instant.now()
@@ -47,7 +47,7 @@ class MainFragment : Fragment() {
 
         binding.mainBtnStartSyncing.setOnClickListener {
             val mainActivity = activity as MainActivity
-            mainActivity.downloadData(this)
+            mainActivity.downloadData()
         }
 
         binding.mainBtnErase.setOnClickListener {
@@ -62,7 +62,7 @@ class MainFragment : Fragment() {
         boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
     }
 
-    fun updateStats(games: Int, extensions: Int) {
+    fun update(games: Int, extensions: Int) {
         binding.mainNumOfGames.text =
             getString(R.string.main_num_of_games, games)
         binding.mainNumOfExtensions.text =
