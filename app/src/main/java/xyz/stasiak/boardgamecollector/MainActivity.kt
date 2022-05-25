@@ -167,6 +167,7 @@ class MainActivity : AppCompatActivity() {
                                                                         rankChild.attributes.getNamedItem(
                                                                             "name"
                                                                         )
+
                                                                     if (type != null && type.textContent == "subtype" && name != null && name.textContent == "boardgame") {
                                                                         currentRank =
                                                                             rankChild.attributes.getNamedItem(
@@ -202,17 +203,19 @@ class MainActivity : AppCompatActivity() {
                                 } catch (e: IOException) {
                                     e.printStackTrace()
                                 }
-                                games.add(
-                                    Game(
-                                        null,
-                                        currentName,
-                                        "org",
-                                        currentYear.toInt(),
-                                        currentBggId.toLong(),
-                                        currentRank.toInt(),
-                                        bytes
+                                if (currentRank != "Not Ranked") {
+                                    games.add(
+                                        Game(
+                                            null,
+                                            currentName,
+                                            "org",
+                                            currentYear.toInt(),
+                                            currentBggId.toLong(),
+                                            currentRank.toInt(),
+                                            bytes
+                                        )
                                     )
-                                )
+                                }
                             }
                         }
                     }
