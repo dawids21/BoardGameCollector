@@ -77,7 +77,21 @@ class BoardGameCollectorDbHandler(
         values.put("bgg_id", game.bggId)
         values.put("rank", game.rank)
         values.put("image", game.image)
-        writableDatabase.insert("games", null, values)
+        val cursor = writableDatabase.rawQuery(
+            "SELECT * FROM games WHERE bgg_id = ?",
+            arrayOf(game.bggId.toString())
+        )
+        if (cursor.moveToFirst()) {
+            writableDatabase.update(
+                "games",
+                values,
+                "game_id = ?",
+                arrayOf(cursor.getLong(0).toString())
+            )
+        } else {
+            writableDatabase.insert("games", null, values)
+        }
+        cursor.close()
         writableDatabase.close()
     }
 
