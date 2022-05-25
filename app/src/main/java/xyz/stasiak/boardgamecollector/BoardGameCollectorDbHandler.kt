@@ -15,7 +15,7 @@ class BoardGameCollectorDbHandler(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 4
+        private const val DATABASE_VERSION = 5
         private const val DATABASE_NAME = "boardGameCollectorDB"
     }
 
@@ -37,11 +37,21 @@ class BoardGameCollectorDbHandler(
                     "image BLOB" +
                     ")"
         )
+        db.execSQL(
+            "CREATE TABLE extensions (" +
+                    "extension_id INTEGER PRIMARY KEY," +
+                    "title TEXT," +
+                    "year INTEGER," +
+                    "bgg_id INTEGER," +
+                    "image BLOB" +
+                    ")"
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS config")
         db.execSQL("DROP TABLE IF EXISTS games")
+        db.execSQL("DROP TABLE IF EXISTS extensions")
         onCreate(db)
     }
 
@@ -172,6 +182,53 @@ class BoardGameCollectorDbHandler(
 
     fun countGames(): Int {
         val cursor = readableDatabase.rawQuery("SELECT game_id FROM games", null)
+        val count = cursor.count
+        cursor.close()
+        readableDatabase.close()
+        return count
+    }
+
+    fun addExtension(extension: Extension) {
+        val values = ContentValues()
+        values.put("title", extension.title)
+        values.put("year", extension.year)
+        values.put("bgg_id", extension.bggId)
+        values.put("image", extension.image)
+        val cursor = writableDatabase.rawQuery(
+            "SELECT * FROM extensions WHERE bgg_id = ?",
+            arrayOf(extension.bggId.toString())
+        )
+        if (cursor.moveToFirst()) {
+            writableDatabase.update(
+                "extensions",
+                values,
+                "extension_id = ?",
+                arrayOf(cursor.getLong(0).toString())
+            )
+        } else {
+            writableDatabase.insert("extensions", null, values)
+        }
+        cursor.close()
+        writableDatabase.close()
+    }
+
+    fun deleteExtension(extensionId: Long) {
+        writableDatabase.delete("extensions", "extension_id = ?", arrayOf(extensionId.toString()))
+        writableDatabase.close()
+    }
+
+    fun deleteExtensions() {
+        writableDatabase.execSQL("DELETE FROM extensions")
+        writableDatabase.close()
+    }
+
+    fun findExtensionsCursor(): Cursor {
+        val query = "SELECT extension_id as _id, title, year, image FROM extensions"
+        return readableDatabase.rawQuery(query, null)
+    }
+
+    fun countExtensions(): Int {
+        val cursor = readableDatabase.rawQuery("SELECT extension_id FROM extensions", null)
         val count = cursor.count
         cursor.close()
         readableDatabase.close()
