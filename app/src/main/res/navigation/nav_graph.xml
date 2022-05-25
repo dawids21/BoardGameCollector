@@ -37,4 +37,9 @@
         android:name="xyz.stasiak.boardgamecollector.ListOfGamesFragment"
         android:label="@string/list_of_games_fragment"
         tools:layout="@layout/fragment_list_of_games" />
+    <fragment
+        android:id="@+id/SyncFragment"
+        android:name="xyz.stasiak.boardgamecollector.SyncFragment"
+        android:label="@string/sync_fragment"
+        tools:layout="@layout/fragment_sync" />
 </navigation>
