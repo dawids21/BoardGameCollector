@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import xyz.stasiak.boardgamecollector.databinding.FragmentMainBinding
+import java.util.*
 
 class MainFragment : Fragment() {
 
@@ -20,16 +21,11 @@ class MainFragment : Fragment() {
     ): View {
 
         binding = FragmentMainBinding.inflate(inflater, container, false)
-        val userName = boardGameCollectorDbHandler.getName()
-
-        if (userName != null) {
-            binding.mainHello.text = getString(R.string.main_hello, userName.name)
-        } else {
-            binding.mainHello.text = getString(R.string.main_hello, "World")
-        }
-        update(boardGameCollectorDbHandler.countGames(), 4)
-        binding.mainDateOfLastSync.text = getString(
-            R.string.main_date_of_last_sync, boardGameCollectorDbHandler.getLastSync()
+        update(
+            boardGameCollectorDbHandler.getName(),
+            boardGameCollectorDbHandler.countGames(),
+            4,
+            boardGameCollectorDbHandler.getLastSync()
         )
         return binding.root
     }
@@ -57,10 +53,18 @@ class MainFragment : Fragment() {
         boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
     }
 
-    fun update(games: Int, extensions: Int) {
+    fun update(userName: UserName?, games: Int, extensions: Int, lastSync: Date?) {
+        if (userName != null) {
+            binding.mainHello.text = getString(R.string.main_hello, userName.name)
+        } else {
+            binding.mainHello.text = getString(R.string.main_hello, "World")
+        }
         binding.mainNumOfGames.text =
             getString(R.string.main_num_of_games, games)
         binding.mainNumOfExtensions.text =
             getString(R.string.main_num_of_games, extensions)
+        binding.mainDateOfLastSync.text = getString(
+            R.string.main_date_of_last_sync, lastSync
+        )
     }
 }

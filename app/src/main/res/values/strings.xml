@@ -28,7 +28,7 @@
     <string name="list_game_image_desc">Image of the game</string>
 
     <!-- Synchronization fragment -->
-    <string name="sync_fragment">Hello blank fragment</string>
+    <string name="sync_fragment">Synchronization</string>
     <string name="sync_btn_start_syncing">Start syncing</string>
 
 </resources>

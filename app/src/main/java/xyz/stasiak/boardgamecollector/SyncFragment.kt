@@ -20,11 +20,7 @@ class SyncFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSyncBinding.inflate(inflater, container, false)
-        binding.syncDateOfSync.text = getString(
-            R.string.main_date_of_last_sync, Date.from(
-                Instant.now()
-            )
-        )
+        update(boardGameCollectorDbHandler.getLastSync())
         return binding.root
 
     }
@@ -42,5 +38,11 @@ class SyncFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
+    }
+
+    fun update(lastSync: Date?) {
+        binding.syncDateOfSync.text = getString(
+            R.string.main_date_of_last_sync, lastSync
+        )
     }
 }

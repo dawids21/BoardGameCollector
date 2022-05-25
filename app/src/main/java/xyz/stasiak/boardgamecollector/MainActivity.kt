@@ -30,8 +30,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var boardGameCollectorDbHandler: BoardGameCollectorDbHandler
 
-    private var numOfGames = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -218,12 +216,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateFragments() {
-        numOfGames = boardGameCollectorDbHandler.countGames()
+        val userName = boardGameCollectorDbHandler.getName()
+        val numOfGames = boardGameCollectorDbHandler.countGames()
+        val lastSync = boardGameCollectorDbHandler.getLastSync()
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
         navHostFragment?.childFragmentManager?.fragments?.forEach { fragment ->
             if (fragment is MainFragment) {
-                fragment.update(numOfGames, 4)
+                fragment.update(userName, numOfGames, 4, lastSync)
+            } else if (fragment is SyncFragment) {
+                fragment.update(lastSync)
             }
         }
     }

@@ -13,17 +13,15 @@ import java.util.*
 
 class ConfigFragment : Fragment() {
 
-    private var _binding: FragmentConfigBinding? = null
-    private val binding get() = _binding!!
-    private var _boardGameCollectorDbHandler: BoardGameCollectorDbHandler? = null
-    private val boardGameCollectorDbHandler get() = _boardGameCollectorDbHandler!!
+    private lateinit var binding: FragmentConfigBinding
+    private lateinit var boardGameCollectorDbHandler: BoardGameCollectorDbHandler
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentConfigBinding.inflate(inflater, container, false)
+        binding = FragmentConfigBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -45,11 +43,6 @@ class ConfigFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        _boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
     }
 }
