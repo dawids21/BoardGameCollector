@@ -69,6 +69,11 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_MainFragment_to_ListOfGamesFragment)
         }
 
+        binding.mainBtnStartSyncing.setOnClickListener {
+            val mainActivity = activity as MainActivity
+            mainActivity.downloadData()
+        }
+
         binding.mainBtnErase.setOnClickListener {
             boardGameCollectorDbHandler.deleteName()
             boardGameCollectorDbHandler.deleteGames()
