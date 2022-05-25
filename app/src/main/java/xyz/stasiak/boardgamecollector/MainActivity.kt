@@ -1,5 +1,7 @@
 package xyz.stasiak.boardgamecollector
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,24 +10,30 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import org.w3c.dom.Document
+import org.w3c.dom.Element
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
 import xyz.stasiak.boardgamecollector.databinding.ActivityMainBinding
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.net.MalformedURLException
 import java.net.URL
+import javax.xml.parsers.DocumentBuilderFactory
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var boardGameCollectorDbHandler: BoardGameCollectorDbHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        boardGameCollectorDbHandler = BoardGameCollectorDbHandler(this, null)
 
         setSupportActionBar(binding.toolbar)
 
@@ -91,6 +99,109 @@ class MainActivity : AppCompatActivity() {
             } catch (e: IOException) {
                 return "Wyjątek IO"
             }
+            val games = ArrayList<Game>()
+            val fileName = "games.xml"
+            val inDir = File(filesDir, "XML")
+            if (inDir.exists()) {
+                val file = File(inDir, fileName)
+                if (file.exists()) {
+                    val xmlDoc: Document =
+                        DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
+                    xmlDoc.documentElement.normalize()
+                    val items: NodeList = xmlDoc.getElementsByTagName("item")
+                    for (i in 0 until items.length) {
+                        val itemNode: Node = items.item(i)
+                        if (itemNode.nodeType == Node.ELEMENT_NODE) {
+                            val children = itemNode.childNodes
+                            var currentName: String? = null
+                            var currentYear: String? = null
+                            val currentBggId =
+                                itemNode.attributes.getNamedItem("objectid").textContent
+                            var currentRank: String? = null
+                            var currentImageUrl: String? = null
+                            for (j in 0 until children.length) {
+                                val node = children.item(j)
+                                if (node is Element) {
+                                    when (node.nodeName) {
+                                        "name" -> currentName = node.textContent
+                                        "yearpublished" -> currentYear = node.textContent
+                                        "image" -> currentImageUrl = node.textContent
+                                        "stats" -> {
+                                            val statsChildren = node.childNodes
+                                            for (k in 0 until statsChildren.length) {
+                                                val statsChild = statsChildren.item(k)
+                                                if (statsChild.nodeName == "rating") {
+                                                    val ratingChildren = statsChild.childNodes
+                                                    for (l in 0 until ratingChildren.length) {
+                                                        val ratingChild = ratingChildren.item(l)
+                                                        if (ratingChild.nodeName == "ranks") {
+                                                            val ranksChildren =
+                                                                ratingChild.childNodes
+                                                            for (m in 0 until ranksChildren.length) {
+                                                                val rankChild =
+                                                                    ranksChildren.item(m)
+                                                                if (rankChild is Element) {
+                                                                    val type =
+                                                                        rankChild.attributes.getNamedItem(
+                                                                            "type"
+                                                                        )
+                                                                    val name =
+                                                                        rankChild.attributes.getNamedItem(
+                                                                            "name"
+                                                                        )
+                                                                    if (type != null && type.textContent == "subtype" && name != null && name.textContent == "boardgame") {
+                                                                        currentRank =
+                                                                            rankChild.attributes.getNamedItem(
+                                                                                "value"
+                                                                            ).textContent
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (currentYear != null && currentName != null && currentBggId != null && currentRank != null) {
+                                var bytes: ByteArray? = null
+                                try {
+                                    val url = URL(currentImageUrl)
+                                    val connection = url.openConnection()
+                                    connection.doInput = true
+                                    connection.connect()
+                                    val input: InputStream = connection.getInputStream()
+                                    val bitmap = BitmapFactory.decodeStream(input)
+                                    val byteArrayOutputStream = ByteArrayOutputStream()
+                                    bitmap?.compress(
+                                        Bitmap.CompressFormat.JPEG,
+                                        100,
+                                        byteArrayOutputStream
+                                    )
+                                    bytes = byteArrayOutputStream.toByteArray()
+                                } catch (e: IOException) {
+                                    e.printStackTrace()
+                                }
+                                games.add(
+                                    Game(
+                                        null,
+                                        currentName,
+                                        "org",
+                                        currentYear.toInt(),
+                                        currentBggId.toLong(),
+                                        currentRank.toInt(),
+                                        bytes
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            games.forEach { boardGameCollectorDbHandler.addGame(it) }
             return "success"
         }
     }

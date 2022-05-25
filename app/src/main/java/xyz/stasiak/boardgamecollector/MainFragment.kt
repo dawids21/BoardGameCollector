@@ -1,17 +1,13 @@
 package xyz.stasiak.boardgamecollector
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import xyz.stasiak.boardgamecollector.databinding.FragmentMainBinding
-import java.io.ByteArrayOutputStream
 import java.time.Instant
 import java.util.*
 
@@ -48,24 +44,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val drawable =
-            ResourcesCompat.getDrawable(resources, R.drawable.ic_launcher_foreground, null)
-        val bitmap = drawable?.toBitmap()
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        val bytes = byteArrayOutputStream.toByteArray()
         binding.mainBtnListOfGames.setOnClickListener {
-            boardGameCollectorDbHandler.addGame(
-                Game(
-                    null,
-                    "Karawana",
-                    "Caravan",
-                    2020,
-                    123456,
-                    2,
-                    bytes
-                )
-            )
             findNavController().navigate(R.id.action_MainFragment_to_ListOfGamesFragment)
         }
 
