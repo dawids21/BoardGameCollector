@@ -10,7 +10,7 @@
     <string name="main_date_of_last_sync">Date of last syncing: %1$tH:%1$tM %1$td.%1$tm.%1$tY</string>
     <string name="main_button_list_of_games">List of games</string>
     <string name="main_button_list_of_extensions">List of extensions</string>
-    <string name="main_button_sync">Start syncing</string>
+    <string name="main_button_sync">Synchronization</string>
     <string name="main_button_erase">Erase data</string>
 
     <!-- Config fragment -->
