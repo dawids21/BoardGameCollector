@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import xyz.stasiak.boardgamecollector.databinding.FragmentSyncBinding
 import java.time.Instant
 import java.util.*
@@ -32,6 +33,7 @@ class SyncFragment : Fragment() {
             val mainActivity = activity as MainActivity
             mainActivity.downloadData()
             boardGameCollectorDbHandler.setLastSync(Date.from(Instant.now()))
+            findNavController().navigateUp()
         }
     }
 
