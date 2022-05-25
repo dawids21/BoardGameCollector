@@ -24,7 +24,7 @@ class MainFragment : Fragment() {
         update(
             boardGameCollectorDbHandler.getName(),
             boardGameCollectorDbHandler.countGames(),
-            4,
+            boardGameCollectorDbHandler.countExtensions(),
             boardGameCollectorDbHandler.getLastSync()
         )
         return binding.root
@@ -62,7 +62,7 @@ class MainFragment : Fragment() {
         binding.mainNumOfGames.text =
             getString(R.string.main_num_of_games, games)
         binding.mainNumOfExtensions.text =
-            getString(R.string.main_num_of_games, extensions)
+            getString(R.string.main_num_of_extensions, extensions)
         binding.mainDateOfLastSync.text = getString(
             R.string.main_date_of_last_sync, lastSync
         )

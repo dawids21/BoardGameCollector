@@ -243,12 +243,13 @@ class MainActivity : AppCompatActivity() {
     private fun updateFragments() {
         val userName = boardGameCollectorDbHandler.getName()
         val numOfGames = boardGameCollectorDbHandler.countGames()
+        val numOfExtensions = boardGameCollectorDbHandler.countExtensions()
         val lastSync = boardGameCollectorDbHandler.getLastSync()
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
         navHostFragment?.childFragmentManager?.fragments?.forEach { fragment ->
             if (fragment is MainFragment) {
-                fragment.update(userName, numOfGames, 4, lastSync)
+                fragment.update(userName, numOfGames, numOfExtensions, lastSync)
             } else if (fragment is SyncFragment) {
                 fragment.update(lastSync)
             }
