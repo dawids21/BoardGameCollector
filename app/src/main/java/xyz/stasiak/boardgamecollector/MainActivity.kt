@@ -54,15 +54,17 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    fun downloadData() {
+    fun downloadData(mainFragment: MainFragment) {
         val userName = boardGameCollectorDbHandler.getName()
         if (userName != null) {
-            GamesDownloader().execute(userName.name)
+            val gamesDownloader = GamesDownloader(mainFragment)
+            gamesDownloader.execute(userName.name)
         }
     }
 
     @Suppress("DEPRECATION")
-    private inner class GamesDownloader : AsyncTask<String, Int, String>() {
+    private inner class GamesDownloader(val mainFragment: MainFragment) :
+        AsyncTask<String, Int, String>() {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
@@ -205,6 +207,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             games.forEach { boardGameCollectorDbHandler.addGame(it) }
+            mainFragment.updateStats(boardGameCollectorDbHandler.countGames(), 4)
             return "success"
         }
     }

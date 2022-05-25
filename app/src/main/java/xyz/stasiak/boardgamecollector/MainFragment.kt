@@ -13,17 +13,15 @@ import java.util.*
 
 class MainFragment : Fragment() {
 
-    private var _binding: FragmentMainBinding? = null
-    private val binding get() = _binding!!
-    private var _boardGameCollectorDbHandler: BoardGameCollectorDbHandler? = null
-    private val boardGameCollectorDbHandler get() = _boardGameCollectorDbHandler!!
+    private lateinit var binding: FragmentMainBinding
+    private lateinit var boardGameCollectorDbHandler: BoardGameCollectorDbHandler
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
         val userName = boardGameCollectorDbHandler.getName()
 
         if (userName != null) {
@@ -31,8 +29,7 @@ class MainFragment : Fragment() {
         } else {
             binding.mainHello.text = getString(R.string.main_hello, "World")
         }
-        binding.mainNumOfGames.text = getString(R.string.main_num_of_games, 3)
-        binding.mainNumOfExtensions.text = getString(R.string.main_num_of_extensions, 4)
+        updateStats(boardGameCollectorDbHandler.countGames(), 4)
         binding.mainDateOfLastSync.text = getString(
             R.string.main_date_of_last_sync, Date.from(
                 Instant.now()
@@ -50,7 +47,7 @@ class MainFragment : Fragment() {
 
         binding.mainBtnStartSyncing.setOnClickListener {
             val mainActivity = activity as MainActivity
-            mainActivity.downloadData()
+            mainActivity.downloadData(this)
         }
 
         binding.mainBtnErase.setOnClickListener {
@@ -62,11 +59,13 @@ class MainFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        _boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
+        boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    fun updateStats(games: Int, extensions: Int) {
+        binding.mainNumOfGames.text =
+            getString(R.string.main_num_of_games, games)
+        binding.mainNumOfExtensions.text =
+            getString(R.string.main_num_of_games, extensions)
     }
 }

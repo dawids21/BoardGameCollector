@@ -132,4 +132,12 @@ class BoardGameCollectorDbHandler(
         val query = "SELECT game_id as _id, title, year, rank, image FROM games"
         return readableDatabase.rawQuery(query, null)
     }
+
+    fun countGames(): Int {
+        val cursor = readableDatabase.rawQuery("SELECT game_id FROM games", null)
+        val count = cursor.count
+        cursor.close()
+        readableDatabase.close()
+        return count
+    }
 }
