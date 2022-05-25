@@ -3,6 +3,7 @@
 package xyz.stasiak.boardgamecollector
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
@@ -66,12 +67,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private inner class GamesDownloader() :
+    private inner class GamesDownloader :
         AsyncTask<String, Int, String>() {
+
+        private lateinit var progressDialog: ProgressDialog
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+            progressDialog = ProgressDialog(this@MainActivity)
+            progressDialog.setMessage("Synchronization in progress...")
+            progressDialog.show()
+        }
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            println(result)
+            progressDialog.dismiss()
         }
 
         override fun doInBackground(vararg args: String?): String {
