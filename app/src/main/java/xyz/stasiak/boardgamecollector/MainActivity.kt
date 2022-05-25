@@ -118,6 +118,7 @@ class MainActivity : AppCompatActivity() {
                 return "Wyjątek IO"
             }
             val games = ArrayList<Game>()
+            val extensions = ArrayList<Extension>()
             val fileName = "games.xml"
             val inDir = File(filesDir, "XML")
             if (inDir.exists()) {
@@ -215,6 +216,16 @@ class MainActivity : AppCompatActivity() {
                                             bytes
                                         )
                                     )
+                                } else {
+                                    extensions.add(
+                                        Extension(
+                                            null,
+                                            currentName,
+                                            currentYear.toInt(),
+                                            currentBggId.toLong(),
+                                            bytes
+                                        )
+                                    )
                                 }
                             }
                         }
@@ -223,6 +234,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             games.forEach { boardGameCollectorDbHandler.addGame(it) }
+            extensions.forEach { boardGameCollectorDbHandler.addExtension(it) }
             updateFragments()
             return "success"
         }
