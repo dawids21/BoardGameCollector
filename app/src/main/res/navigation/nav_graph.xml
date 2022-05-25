@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_MainFragment_to_ListOfGamesFragment"
             app:destination="@id/ListOfGamesFragment" />
+        <action
+            android:id="@+id/action_MainFragment_to_SyncFragment"
+            app:destination="@id/SyncFragment" />
     </fragment>
     <fragment
         android:id="@+id/ConfigFragment"

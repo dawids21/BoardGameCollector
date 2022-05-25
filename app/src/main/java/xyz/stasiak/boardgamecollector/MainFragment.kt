@@ -46,8 +46,9 @@ class MainFragment : Fragment() {
         }
 
         binding.mainBtnStartSyncing.setOnClickListener {
-            val mainActivity = activity as MainActivity
-            mainActivity.downloadData()
+            findNavController().navigate(R.id.action_MainFragment_to_SyncFragment)
+//            val mainActivity = activity as MainActivity
+//            mainActivity.downloadData()
         }
 
         binding.mainBtnErase.setOnClickListener {
