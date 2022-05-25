@@ -15,7 +15,7 @@ class BoardGameCollectorDbHandler(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 5
+        private const val DATABASE_VERSION = 6
         private const val DATABASE_NAME = "boardGameCollectorDB"
     }
 
@@ -30,7 +30,6 @@ class BoardGameCollectorDbHandler(
             "CREATE TABLE games (" +
                     "game_id INTEGER PRIMARY KEY," +
                     "title TEXT," +
-                    "original_title TEXT," +
                     "year INTEGER," +
                     "bgg_id INTEGER," +
                     "rank INTEGER," +
@@ -119,7 +118,6 @@ class BoardGameCollectorDbHandler(
     fun addGame(game: Game) {
         val values = ContentValues()
         values.put("title", game.title)
-        values.put("original_title", game.originalTitle)
         values.put("year", game.year)
         values.put("bgg_id", game.bggId)
         values.put("rank", game.rank)
@@ -140,29 +138,6 @@ class BoardGameCollectorDbHandler(
         }
         cursor.close()
         writableDatabase.close()
-    }
-
-    fun findGames(): List<Game> {
-        val query = "SELECT * FROM games"
-        val cursor = readableDatabase.rawQuery(query, null)
-        val games: ArrayList<Game> = ArrayList()
-        if (cursor.moveToNext()) {
-            do {
-                val game = Game(
-                    cursor.getLong(0),
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getInt(3),
-                    cursor.getLong(4),
-                    cursor.getInt(5),
-                    cursor.getBlob(6)
-                )
-                games.add(game)
-            } while (cursor.moveToNext())
-            cursor.close()
-        }
-        writableDatabase.close()
-        return games
     }
 
     fun deleteGame(gameId: Long) {

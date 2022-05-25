@@ -224,7 +224,6 @@ class MainActivity : AppCompatActivity() {
                                         Game(
                                             null,
                                             currentName,
-                                            "org",
                                             currentYear.toInt(),
                                             currentBggId.toLong(),
                                             if (currentRank != "Not Ranked") currentRank.toInt() else 0,
