@@ -12,12 +12,13 @@
         android:layout_weight="1"
         android:textAlignment="center" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/gameImage"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_weight="1"-->
-    <!--        android:textAlignment="center" />-->
+    <ImageView
+        android:id="@+id/gameImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:contentDescription="@string/list_game_image_desc"
+        android:src="@drawable/ic_launcher_background" />
 
     <TextView
         android:id="@+id/gameTitle"

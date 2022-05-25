@@ -25,5 +25,6 @@
     <string name="games_table_title_column">Title</string>
     <string name="games_table_year_column">Year</string>
     <string name="games_table_rank_column">Rank</string>
+    <string name="list_game_image_desc">Image of the game</string>
 
 </resources>

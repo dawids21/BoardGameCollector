@@ -6,6 +6,7 @@ class Game(
     val originalTitle: String,
     val year: Int,
     val bggId: Long,
-    val rank: Int
+    val rank: Int,
+    val image: ByteArray?
 ) {
 }

@@ -12,7 +12,7 @@ class BoardGameCollectorDbHandler(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
         private const val DATABASE_NAME = "boardGameCollectorDB"
     }
 
@@ -25,7 +25,8 @@ class BoardGameCollectorDbHandler(
                     "original_title TEXT," +
                     "year INTEGER," +
                     "bgg_id INTEGER," +
-                    "rank INTEGER" +
+                    "rank INTEGER," +
+                    "image BLOB" +
                     ")"
         )
     }
@@ -75,6 +76,7 @@ class BoardGameCollectorDbHandler(
         values.put("year", game.year)
         values.put("bgg_id", game.bggId)
         values.put("rank", game.rank)
+        values.put("image", game.image)
         writableDatabase.insert("games", null, values)
         writableDatabase.close()
     }
@@ -91,7 +93,8 @@ class BoardGameCollectorDbHandler(
                     cursor.getString(2),
                     cursor.getInt(3),
                     cursor.getLong(4),
-                    cursor.getInt(5)
+                    cursor.getInt(5),
+                    cursor.getBlob(6)
                 )
                 games.add(game)
             } while (cursor.moveToNext())
@@ -112,7 +115,7 @@ class BoardGameCollectorDbHandler(
     }
 
     fun findGamesCursor(): Cursor {
-        val query = "SELECT game_id as _id, title, year, rank FROM games"
+        val query = "SELECT game_id as _id, title, year, rank, image FROM games"
         return readableDatabase.rawQuery(query, null)
     }
 }

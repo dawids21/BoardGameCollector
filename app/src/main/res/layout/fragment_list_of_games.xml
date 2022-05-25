@@ -31,13 +31,13 @@
                 android:text="@string/games_table_id_column"
                 android:textAlignment="center" />
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/textView2"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_weight="1"-->
-            <!--                android:text="@string/games_table_image_column"-->
-            <!--                android:textAlignment="center" />-->
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/games_table_image_column"
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/textView3"
