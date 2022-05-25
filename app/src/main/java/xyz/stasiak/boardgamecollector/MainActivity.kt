@@ -137,6 +137,7 @@ class MainActivity : AppCompatActivity() {
                             val currentBggId =
                                 itemNode.attributes.getNamedItem("objectid").textContent
                             var currentRank: String? = null
+                            var currentBayesAverage: String? = null
                             var currentImageUrl: String? = null
                             for (j in 0 until children.length) {
                                 val node = children.item(j)
@@ -174,6 +175,10 @@ class MainActivity : AppCompatActivity() {
                                                                             rankChild.attributes.getNamedItem(
                                                                                 "value"
                                                                             ).textContent
+                                                                        currentBayesAverage =
+                                                                            rankChild.attributes.getNamedItem(
+                                                                                "bayesaverage"
+                                                                            ).textContent
                                                                     }
                                                                 }
                                                             }
@@ -204,7 +209,17 @@ class MainActivity : AppCompatActivity() {
                                 } catch (e: IOException) {
                                     e.printStackTrace()
                                 }
-                                if (currentRank != "Not Ranked") {
+                                if (currentRank == "Not Ranked" && currentBayesAverage != "Not Ranked") {
+                                    extensions.add(
+                                        Extension(
+                                            null,
+                                            currentName,
+                                            currentYear.toInt(),
+                                            currentBggId.toLong(),
+                                            bytes
+                                        )
+                                    )
+                                } else {
                                     games.add(
                                         Game(
                                             null,
@@ -212,17 +227,7 @@ class MainActivity : AppCompatActivity() {
                                             "org",
                                             currentYear.toInt(),
                                             currentBggId.toLong(),
-                                            currentRank.toInt(),
-                                            bytes
-                                        )
-                                    )
-                                } else {
-                                    extensions.add(
-                                        Extension(
-                                            null,
-                                            currentName,
-                                            currentYear.toInt(),
-                                            currentBggId.toLong(),
+                                            if (currentRank != "Not Ranked") currentRank.toInt() else 0,
                                             bytes
                                         )
                                     )
