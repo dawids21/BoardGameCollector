@@ -14,17 +14,15 @@ import xyz.stasiak.boardgamecollector.databinding.FragmentListOfGamesBinding
 
 class ListOfGamesFragment : Fragment() {
 
-    private var _binding: FragmentListOfGamesBinding? = null
-    private val binding get() = _binding!!
-    private var _boardGameCollectorDbHandler: BoardGameCollectorDbHandler? = null
-    private val boardGameCollectorDbHandler get() = _boardGameCollectorDbHandler!!
+    private lateinit var binding: FragmentListOfGamesBinding
+    private lateinit var boardGameCollectorDbHandler: BoardGameCollectorDbHandler
     private lateinit var adapter: SimpleCursorAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentListOfGamesBinding.inflate(inflater, container, false)
+        binding = FragmentListOfGamesBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -36,7 +34,7 @@ class ListOfGamesFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        _boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
+        boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
         val columns = arrayOf("_id", "title", "year", "rank", "image")
         val id =
             intArrayOf(R.id.gameId, R.id.gameTitle, R.id.gameYear, R.id.gameRank, R.id.gameImage)
@@ -65,10 +63,5 @@ class ListOfGamesFragment : Fragment() {
             }
             return@setViewBinder true
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
