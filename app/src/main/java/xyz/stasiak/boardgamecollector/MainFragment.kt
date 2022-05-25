@@ -37,6 +37,10 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_MainFragment_to_ListOfGamesFragment)
         }
 
+        binding.mainBtnListOfExtensions.setOnClickListener {
+            findNavController().navigate(R.id.action_MainFragment_to_ListOfExtensionsFragment)
+        }
+
         binding.mainBtnStartSyncing.setOnClickListener {
             findNavController().navigate(R.id.action_MainFragment_to_SyncFragment)
         }

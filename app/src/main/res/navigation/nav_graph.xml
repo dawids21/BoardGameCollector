@@ -20,6 +20,9 @@
             android:id="@+id/action_MainFragment_to_ListOfGamesFragment"
             app:destination="@id/ListOfGamesFragment" />
         <action
+            android:id="@+id/action_MainFragment_to_ListOfExtensionsFragment"
+            app:destination="@id/ListOfExtensionsFragment" />
+        <action
             android:id="@+id/action_MainFragment_to_SyncFragment"
             app:destination="@id/SyncFragment" />
     </fragment>
@@ -40,6 +43,11 @@
         android:name="xyz.stasiak.boardgamecollector.ListOfGamesFragment"
         android:label="@string/list_of_games_fragment"
         tools:layout="@layout/fragment_list_of_games" />
+    <fragment
+        android:id="@+id/ListOfExtensionsFragment"
+        android:name="xyz.stasiak.boardgamecollector.ListOfExtensionsFragment"
+        android:label="@string/list_of_extensions_fragment"
+        tools:layout="@layout/fragment_list_of_extensions" />
     <fragment
         android:id="@+id/SyncFragment"
         android:name="xyz.stasiak.boardgamecollector.SyncFragment"
