@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SimpleCursorAdapter
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import xyz.stasiak.boardgamecollector.databinding.FragmentListOfGamesBinding
 
-class ListOfGamesFragment() : Fragment() {
+class ListOfGamesFragment : Fragment() {
 
     private var _binding: FragmentListOfGamesBinding? = null
     private val binding get() = _binding!!
@@ -40,6 +41,15 @@ class ListOfGamesFragment() : Fragment() {
         val cursor = boardGameCollectorDbHandler.findGamesCursor()
         adapter =
             SimpleCursorAdapter(context, R.layout.list_games_template, cursor, columns, id, 0)
+        adapter.setViewBinder { view, dbCursor, column ->
+            when (view.id) {
+                R.id.gameId, R.id.gameTitle, R.id.gameYear, R.id.gameRank -> {
+                    val textView = view as TextView
+                    textView.text = dbCursor.getString(column)
+                }
+            }
+            return@setViewBinder true
+        }
     }
 
     override fun onDestroyView() {
