@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package xyz.stasiak.boardgamecollector
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
@@ -64,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @Suppress("DEPRECATION")
+    @SuppressLint("StaticFieldLeak")
     private inner class GamesDownloader() :
         AsyncTask<String, Int, String>() {
 
@@ -209,15 +212,19 @@ class MainActivity : AppCompatActivity() {
             }
 
             games.forEach { boardGameCollectorDbHandler.addGame(it) }
-            numOfGames = boardGameCollectorDbHandler.countGames()
-            val navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
-            navHostFragment?.childFragmentManager?.fragments?.forEach { fragment ->
-                if (fragment is MainFragment) {
-                    fragment.update(numOfGames, 4)
-                }
-            }
+            updateFragments()
             return "success"
+        }
+    }
+
+    private fun updateFragments() {
+        numOfGames = boardGameCollectorDbHandler.countGames()
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+        navHostFragment?.childFragmentManager?.fragments?.forEach { fragment ->
+            if (fragment is MainFragment) {
+                fragment.update(numOfGames, 4)
+            }
         }
     }
 }

@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import xyz.stasiak.boardgamecollector.databinding.FragmentMainBinding
-import java.time.Instant
-import java.util.*
 
 class MainFragment : Fragment() {
 
@@ -31,9 +29,7 @@ class MainFragment : Fragment() {
         }
         update(boardGameCollectorDbHandler.countGames(), 4)
         binding.mainDateOfLastSync.text = getString(
-            R.string.main_date_of_last_sync, Date.from(
-                Instant.now()
-            )
+            R.string.main_date_of_last_sync, boardGameCollectorDbHandler.getLastSync()
         )
         return binding.root
     }
@@ -50,7 +46,7 @@ class MainFragment : Fragment() {
         }
 
         binding.mainBtnErase.setOnClickListener {
-            boardGameCollectorDbHandler.deleteName()
+            boardGameCollectorDbHandler.deleteConfig()
             boardGameCollectorDbHandler.deleteGames()
             findNavController().navigate(R.id.action_MainFragment_to_ConfigFragment)
         }

@@ -35,6 +35,7 @@ class SyncFragment : Fragment() {
         binding.syncBtnStart.setOnClickListener {
             val mainActivity = activity as MainActivity
             mainActivity.downloadData()
+            boardGameCollectorDbHandler.setLastSync(Date.from(Instant.now()))
         }
     }
 

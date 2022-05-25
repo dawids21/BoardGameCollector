@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import xyz.stasiak.boardgamecollector.databinding.FragmentConfigBinding
+import java.time.Instant
+import java.util.*
 
 class ConfigFragment : Fragment() {
 
@@ -30,7 +32,13 @@ class ConfigFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.configBtnStart.setOnClickListener {
-            boardGameCollectorDbHandler.saveName(UserName(binding.configName.text.toString()))
+            boardGameCollectorDbHandler.createConfig(
+                UserName(binding.configName.text.toString()), Date.from(
+                    Instant.now()
+                )
+            )
+            val mainActivity = activity as MainActivity
+            mainActivity.downloadData()
             findNavController().navigate(R.id.action_ConfigFragment_to_MainFragment)
         }
     }
