@@ -48,6 +48,7 @@ class MainFragment : Fragment() {
         binding.mainBtnErase.setOnClickListener {
             boardGameCollectorDbHandler.deleteConfig()
             boardGameCollectorDbHandler.deleteGames()
+            boardGameCollectorDbHandler.deleteExtensions()
             findNavController().navigate(R.id.action_MainFragment_to_ConfigFragment)
         }
     }
