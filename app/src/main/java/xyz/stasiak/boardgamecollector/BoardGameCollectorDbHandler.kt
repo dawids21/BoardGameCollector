@@ -2,6 +2,7 @@ package xyz.stasiak.boardgamecollector
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -108,5 +109,10 @@ class BoardGameCollectorDbHandler(
     fun deleteGames() {
         writableDatabase.execSQL("DELETE FROM games")
         writableDatabase.close()
+    }
+
+    fun findGamesCursor(): Cursor {
+        val query = "SELECT game_id as _id, title, year, rank FROM games"
+        return readableDatabase.rawQuery(query, null)
     }
 }
