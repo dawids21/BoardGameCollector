@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:contentDescription="@string/list_game_image_desc"
-        android:src="@drawable/ic_launcher_background" />
+        android:src="@mipmap/ic_board_game" />
 
     <TextView
         android:id="@+id/gameTitle"
