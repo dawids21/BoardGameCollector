@@ -12,7 +12,7 @@
         android:layout_weight="1"
         android:textAlignment="center" />
 
-    <ImageView
+    <xyz.stasiak.boardgamecollector.SquareImageView
         android:id="@+id/gameImage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
