@@ -14,12 +14,12 @@
         android:text="@string/main_date_of_last_sync"
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/config_btn_start"
+        app:layout_constraintBottom_toTopOf="@+id/sync_btn_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/config_btn_start"
+        android:id="@+id/sync_btn_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sync_btn_start_syncing"
