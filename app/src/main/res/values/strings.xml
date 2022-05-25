@@ -27,6 +27,14 @@
     <string name="games_table_rank_column">Rank</string>
     <string name="list_game_image_desc">Image of the game</string>
 
+    <!-- List of extensions fragment -->
+    <string name="list_of_extensions_fragment">List of extensions</string>
+    <string name="extensions_table_id_column">ID</string>
+    <string name="extensions_table_image_column">Image</string>
+    <string name="extensions_table_title_column">Title</string>
+    <string name="extensions_table_year_column">Year</string>
+    <string name="list_extension_image_desc">Image of the extension</string>
+
     <!-- Synchronization fragment -->
     <string name="sync_fragment">Synchronization</string>
     <string name="sync_btn_start_syncing">Start syncing</string>
