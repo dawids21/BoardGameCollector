@@ -55,7 +55,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun downloadData() {
-        GamesDownloader().execute()
+        val userName = boardGameCollectorDbHandler.getName()
+        if (userName != null) {
+            GamesDownloader().execute(userName.name)
+        }
     }
 
     @Suppress("DEPRECATION")
@@ -66,10 +69,10 @@ class MainActivity : AppCompatActivity() {
             println(result)
         }
 
-        override fun doInBackground(vararg p0: String?): String {
+        override fun doInBackground(vararg args: String?): String {
             try {
                 val url =
-                    URL("https://www.boardgamegeek.com/xmlapi2/collection?username=Dalakos&stats=1")
+                    URL("https://www.boardgamegeek.com/xmlapi2/collection?username=${args[0]}&stats=1")
                 val connection = url.openConnection()
                 connection.connect()
                 val lengthOfFile = connection.contentLength
