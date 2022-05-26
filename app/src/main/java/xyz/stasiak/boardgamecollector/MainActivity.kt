@@ -3,6 +3,7 @@
 package xyz.stasiak.boardgamecollector
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -82,6 +83,12 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             progressDialog.dismiss()
+            AlertDialog.Builder(this@MainActivity)
+                .setTitle("Delete games")
+                .setMessage("Do you want to delete games and extensions?")
+                .setPositiveButton("Yes") { _, _ -> println("Deleting...") }
+                .setNegativeButton("No", null)
+                .show()
         }
 
         override fun doInBackground(vararg args: String?): String {
