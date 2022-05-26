@@ -87,14 +87,14 @@ class MainActivity : AppCompatActivity() {
             progressDialog.dismiss()
             if (deletedGames.isNotEmpty() || deletedExtensions.isNotEmpty()) {
                 AlertDialog.Builder(this@MainActivity)
-                    .setTitle("Delete games")
-                    .setMessage("Do you want to delete games and extensions?")
-                    .setPositiveButton("Yes") { _, _ ->
+                    .setTitle(R.string.download_dialog_title)
+                    .setMessage(R.string.download_dialog_message)
+                    .setPositiveButton(R.string.download_dialog_yes) { _, _ ->
                         deletedGames.forEach { boardGameCollectorDbHandler.deleteGame(it) }
                         deletedExtensions.forEach { boardGameCollectorDbHandler.deleteExtension(it) }
                         updateFragments()
                     }
-                    .setNegativeButton("No", null)
+                    .setNegativeButton(R.string.download_dialog_no, null)
                     .show()
             }
             updateFragments()

@@ -50,4 +50,10 @@
     <string name="ranking_list_rank">Rank</string>
     <string name="ranking_list_rank_date">%1$tH:%1$tM %1$td.%1$tm.%1$tY</string>
 
+    <!-- Download dialog -->
+    <string name="download_dialog_title">Do you want to delete games and extensions?</string>
+    <string name="download_dialog_message">Ranks are deleted too.</string>
+    <string name="download_dialog_yes">Yes</string>
+    <string name="download_dialog_no">No</string>
+
 </resources>
