@@ -251,7 +251,7 @@ class BoardGameCollectorDbHandler(
 
     fun findRanksByGameCursor(gameId: Long): Cursor {
         return readableDatabase.rawQuery(
-            "SELECT rank_id as _id, date, rank FROM ranks WHERE gameId = ? ORDER BY date",
+            "SELECT rank_id as _id, date, rank FROM ranks WHERE game_id = ? ORDER BY date",
             arrayOf(gameId.toString())
         )
     }

@@ -26,6 +26,7 @@ class ListOfGamesFragment : Fragment() {
         binding.listOfGames.setOnItemClickListener { _, _, _, gameId ->
             val game = boardGameCollectorDbHandler.findGame(gameId) ?: return@setOnItemClickListener
             val bundle = Bundle()
+            bundle.putLong(RankingFragment.ID_PARAM, game.id!!)
             bundle.putString(RankingFragment.TITLE_PARAM, game.title)
             bundle.putByteArray(RankingFragment.IMAGE_PARAM, game.image)
             findNavController().navigate(R.id.action_ListOfGamesFragment_to_RankingFragment, bundle)
