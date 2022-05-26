@@ -140,6 +140,26 @@ class BoardGameCollectorDbHandler(
         writableDatabase.close()
     }
 
+    fun findGame(gameId: Long): Game? {
+        val cursor = writableDatabase.rawQuery(
+            "SELECT * FROM games WHERE game_id = ?",
+            arrayOf(gameId.toString())
+        )
+        if (!cursor.moveToFirst()) {
+            cursor.close()
+            writableDatabase.close()
+            return null
+        }
+        return Game(
+            gameId,
+            cursor.getString(cursor.getColumnIndexOrThrow("title")),
+            cursor.getInt(cursor.getColumnIndexOrThrow("year")),
+            cursor.getLong(cursor.getColumnIndexOrThrow("bgg_id")),
+            cursor.getInt(cursor.getColumnIndexOrThrow("rank")),
+            cursor.getBlob(cursor.getColumnIndexOrThrow("image"))
+        )
+    }
+
     fun deleteGame(gameId: Long) {
         writableDatabase.delete("games", "game_id = ?", arrayOf(gameId.toString()))
         writableDatabase.close()
