@@ -1,5 +1,6 @@
 package xyz.stasiak.boardgamecollector
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,10 +31,30 @@ class SyncFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.syncBtnStart.setOnClickListener {
-            val mainActivity = activity as MainActivity
-            mainActivity.downloadData()
-            boardGameCollectorDbHandler.setLastSync(Date.from(Instant.now()))
-            findNavController().navigateUp()
+            val lastSync = boardGameCollectorDbHandler.getLastSync()
+            if (lastSync != null && lastSync.after(
+                    Date.from(
+                        Instant.now().minusSeconds(60)
+                    )
+                )
+            ) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Do you want to synchronize?")
+                    .setMessage("Rankings are updated once per day.")
+                    .setPositiveButton("Yes") { _, _ ->
+                        val mainActivity = activity as MainActivity
+                        mainActivity.downloadData()
+                        boardGameCollectorDbHandler.setLastSync(Date.from(Instant.now()))
+                        findNavController().navigateUp()
+                    }
+                    .setNegativeButton("No", null)
+                    .show()
+            } else {
+                val mainActivity = activity as MainActivity
+                mainActivity.downloadData()
+                boardGameCollectorDbHandler.setLastSync(Date.from(Instant.now()))
+                findNavController().navigateUp()
+            }
         }
     }
 
