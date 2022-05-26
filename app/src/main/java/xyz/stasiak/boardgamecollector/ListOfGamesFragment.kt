@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.SimpleCursorAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import xyz.stasiak.boardgamecollector.databinding.FragmentListOfGamesBinding
 
 class ListOfGamesFragment : Fragment() {
@@ -23,6 +24,11 @@ class ListOfGamesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListOfGamesBinding.inflate(inflater, container, false)
+        binding.listOfGames.setOnItemClickListener { parent, view, position, gameId ->
+            val bundle = Bundle()
+            bundle.putString("gameName", "ABCDEF")
+            findNavController().navigate(R.id.action_ListOfGamesFragment_to_RankingFragment, bundle)
+        }
         return binding.root
 
     }
