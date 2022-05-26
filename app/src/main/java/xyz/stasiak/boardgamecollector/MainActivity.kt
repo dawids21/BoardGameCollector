@@ -85,16 +85,18 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             progressDialog.dismiss()
-            AlertDialog.Builder(this@MainActivity)
-                .setTitle("Delete games")
-                .setMessage("Do you want to delete games and extensions?")
-                .setPositiveButton("Yes") { _, _ ->
-                    deletedGames.forEach { boardGameCollectorDbHandler.deleteGame(it) }
-                    deletedExtensions.forEach { boardGameCollectorDbHandler.deleteExtension(it) }
-                    updateFragments()
-                }
-                .setNegativeButton("No", null)
-                .show()
+            if (deletedGames.isNotEmpty() || deletedExtensions.isNotEmpty()) {
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Delete games")
+                    .setMessage("Do you want to delete games and extensions?")
+                    .setPositiveButton("Yes") { _, _ ->
+                        deletedGames.forEach { boardGameCollectorDbHandler.deleteGame(it) }
+                        deletedExtensions.forEach { boardGameCollectorDbHandler.deleteExtension(it) }
+                        updateFragments()
+                    }
+                    .setNegativeButton("No", null)
+                    .show()
+            }
             updateFragments()
         }
 
