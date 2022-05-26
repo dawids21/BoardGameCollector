@@ -39,4 +39,7 @@
     <string name="sync_fragment">Synchronization</string>
     <string name="sync_btn_start_syncing">Start syncing</string>
 
+    <!-- Ranking fragment -->
+    <string name="ranking_fragment">Ranking</string>
+
 </resources>
