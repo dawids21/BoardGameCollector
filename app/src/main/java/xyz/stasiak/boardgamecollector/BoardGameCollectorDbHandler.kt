@@ -198,7 +198,22 @@ class BoardGameCollectorDbHandler(
     }
 
     fun findGamesCursor(): Cursor {
-        val query = "SELECT game_id as _id, title, year, rank, image FROM games"
+        val query = "SELECT game_id as _id, title, year, rank, image FROM games ORDER BY game_id"
+        return readableDatabase.rawQuery(query, null)
+    }
+
+    fun findGamesCursorSortByTitle(): Cursor {
+        val query = "SELECT game_id as _id, title, year, rank, image FROM games ORDER BY title"
+        return readableDatabase.rawQuery(query, null)
+    }
+
+    fun findGamesCursorSortByYear(): Cursor {
+        val query = "SELECT game_id as _id, title, year, rank, image FROM games ORDER BY year"
+        return readableDatabase.rawQuery(query, null)
+    }
+
+    fun findGamesCursorSortByRank(): Cursor {
+        val query = "SELECT game_id as _id, title, year, rank, image FROM games ORDER BY rank"
         return readableDatabase.rawQuery(query, null)
     }
 
