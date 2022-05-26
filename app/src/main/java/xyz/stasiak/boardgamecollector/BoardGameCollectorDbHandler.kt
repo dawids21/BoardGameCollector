@@ -256,7 +256,18 @@ class BoardGameCollectorDbHandler(
     }
 
     fun findExtensionsCursor(): Cursor {
-        val query = "SELECT extension_id as _id, title, year, image FROM extensions"
+        val query =
+            "SELECT extension_id as _id, title, year, image FROM extensions ORDER BY extension_id"
+        return readableDatabase.rawQuery(query, null)
+    }
+
+    fun findExtensionsCursorSortByTitle(): Cursor {
+        val query = "SELECT extension_id as _id, title, year, image FROM extensions ORDER BY title"
+        return readableDatabase.rawQuery(query, null)
+    }
+
+    fun findExtensionsCursorSortByYear(): Cursor {
+        val query = "SELECT extension_id as _id, title, year, image FROM extensions ORDER BY year"
         return readableDatabase.rawQuery(query, null)
     }
 

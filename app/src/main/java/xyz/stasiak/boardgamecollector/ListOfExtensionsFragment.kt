@@ -1,6 +1,7 @@
 package xyz.stasiak.boardgamecollector
 
 import android.content.Context
+import android.database.Cursor
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +24,27 @@ class ListOfExtensionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListOfExtensionsBinding.inflate(inflater, container, false)
+
+        binding.extensionsListId.setOnClickListener {
+            setAdapter(requireContext(), boardGameCollectorDbHandler.findExtensionsCursor())
+            binding.listOfExtensions.adapter = adapter
+        }
+
+        binding.extensionsListTitle.setOnClickListener {
+            setAdapter(
+                requireContext(),
+                boardGameCollectorDbHandler.findExtensionsCursorSortByTitle()
+            )
+            binding.listOfExtensions.adapter = adapter
+        }
+
+        binding.extensionsListYear.setOnClickListener {
+            setAdapter(
+                requireContext(),
+                boardGameCollectorDbHandler.findExtensionsCursorSortByYear()
+            )
+            binding.listOfExtensions.adapter = adapter
+        }
         return binding.root
 
     }
@@ -35,6 +57,10 @@ class ListOfExtensionsFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         boardGameCollectorDbHandler = BoardGameCollectorDbHandler(context, null)
+        setAdapter(context, boardGameCollectorDbHandler.findExtensionsCursor())
+    }
+
+    private fun setAdapter(context: Context, cursor: Cursor) {
         val columns = arrayOf("_id", "title", "year", "image")
         val id =
             intArrayOf(
@@ -43,7 +69,6 @@ class ListOfExtensionsFragment : Fragment() {
                 R.id.extensionYear,
                 R.id.extensionImage
             )
-        val cursor = boardGameCollectorDbHandler.findExtensionsCursor()
         adapter =
             SimpleCursorAdapter(context, R.layout.list_extensions_template, cursor, columns, id, 0)
         adapter.setViewBinder { view, dbCursor, column ->
