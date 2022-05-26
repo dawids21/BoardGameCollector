@@ -25,8 +25,9 @@ class ListOfGamesFragment : Fragment() {
     ): View {
         binding = FragmentListOfGamesBinding.inflate(inflater, container, false)
         binding.listOfGames.setOnItemClickListener { parent, view, position, gameId ->
+            val game = boardGameCollectorDbHandler.findGame(gameId) ?: return@setOnItemClickListener
             val bundle = Bundle()
-            bundle.putString("gameName", "ABCDEF")
+            bundle.putString("gameName", game.title)
             findNavController().navigate(R.id.action_ListOfGamesFragment_to_RankingFragment, bundle)
         }
         return binding.root
