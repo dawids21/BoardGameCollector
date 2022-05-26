@@ -1,7 +1,7 @@
 package xyz.stasiak.boardgamecollector
 
 import android.content.Context
-import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import xyz.stasiak.boardgamecollector.databinding.FragmentListOfGamesBinding
+import java.net.URL
 
 class ListOfGamesFragment : Fragment() {
 
@@ -28,7 +29,7 @@ class ListOfGamesFragment : Fragment() {
             val bundle = Bundle()
             bundle.putLong(RankingFragment.ID_PARAM, game.id!!)
             bundle.putString(RankingFragment.TITLE_PARAM, game.title)
-            bundle.putByteArray(RankingFragment.IMAGE_PARAM, game.image)
+            bundle.putString(RankingFragment.IMAGE_PARAM, game.image)
             findNavController().navigate(R.id.action_ListOfGamesFragment_to_RankingFragment, bundle)
         }
         return binding.root
@@ -57,15 +58,12 @@ class ListOfGamesFragment : Fragment() {
                 }
                 R.id.gameImage -> {
                     val imageView = view as SquareImageView
-                    val image = dbCursor.getBlob(column)
-                    if (image != null) {
-                        imageView.setImageBitmap(
-                            BitmapFactory.decodeByteArray(
-                                image,
-                                0,
-                                image.size
-                            )
-                        )
+                    val imageUrl = dbCursor.getString(column)
+                    if (imageUrl != null) {
+                        ImagesDownloaderAsync(
+                            imageView,
+                            URL(imageUrl)
+                        ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
                     }
                 }
             }

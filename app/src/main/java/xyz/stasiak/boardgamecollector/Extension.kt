@@ -5,6 +5,6 @@ class Extension(
     val title: String,
     val year: Int,
     val bggId: Long,
-    val image: ByteArray?
+    val image: String?
 ) {
 }

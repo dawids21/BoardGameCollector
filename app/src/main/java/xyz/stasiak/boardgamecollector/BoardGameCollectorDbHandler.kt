@@ -16,7 +16,7 @@ class BoardGameCollectorDbHandler(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 7
+        private const val DATABASE_VERSION = 8
         private const val DATABASE_NAME = "boardGameCollectorDB"
     }
 
@@ -34,7 +34,7 @@ class BoardGameCollectorDbHandler(
                     "year INTEGER," +
                     "bgg_id INTEGER," +
                     "rank INTEGER," +
-                    "image BLOB" +
+                    "image TEXT" +
                     ")"
         )
         db.execSQL(
@@ -43,7 +43,7 @@ class BoardGameCollectorDbHandler(
                     "title TEXT," +
                     "year INTEGER," +
                     "bgg_id INTEGER," +
-                    "image BLOB" +
+                    "image TEXT" +
                     ")"
         )
         db.execSQL(
@@ -163,7 +163,7 @@ class BoardGameCollectorDbHandler(
             cursor.getInt(cursor.getColumnIndexOrThrow("year")),
             cursor.getLong(cursor.getColumnIndexOrThrow("bgg_id")),
             cursor.getInt(cursor.getColumnIndexOrThrow("rank")),
-            cursor.getBlob(cursor.getColumnIndexOrThrow("image"))
+            cursor.getString(cursor.getColumnIndexOrThrow("image"))
         )
     }
 

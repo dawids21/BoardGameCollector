@@ -1,6 +1,6 @@
 package xyz.stasiak.boardgamecollector
 
-import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +9,7 @@ import android.widget.SimpleCursorAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import xyz.stasiak.boardgamecollector.databinding.FragmentRankingBinding
+import java.net.URL
 import java.text.SimpleDateFormat
 
 class RankingFragment : Fragment() {
@@ -25,14 +26,14 @@ class RankingFragment : Fragment() {
 
     private var gameId: Long? = null
     private var title: String? = null
-    private var image: ByteArray? = null
+    private var image: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             gameId = it.getLong(ID_PARAM)
             title = it.getString(TITLE_PARAM)
-            image = it.getByteArray(IMAGE_PARAM)
+            image = it.getString(IMAGE_PARAM)
         }
     }
 
@@ -44,15 +45,10 @@ class RankingFragment : Fragment() {
 
         binding.rankingTitle.text = title
         if (image != null) {
-            if (image != null) {
-                binding.rankingImage.setImageBitmap(
-                    BitmapFactory.decodeByteArray(
-                        image,
-                        0,
-                        image!!.size
-                    )
-                )
-            }
+            ImagesDownloaderAsync(
+                binding.rankingImage,
+                URL(image)
+            ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
         }
 
         boardGameCollectorDbHandler = BoardGameCollectorDbHandler(requireContext(), null)

@@ -1,7 +1,7 @@
 package xyz.stasiak.boardgamecollector
 
 import android.content.Context
-import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +10,7 @@ import android.widget.SimpleCursorAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import xyz.stasiak.boardgamecollector.databinding.FragmentListOfExtensionsBinding
+import java.net.URL
 
 class ListOfExtensionsFragment : Fragment() {
 
@@ -53,15 +54,12 @@ class ListOfExtensionsFragment : Fragment() {
                 }
                 R.id.extensionImage -> {
                     val imageView = view as SquareImageView
-                    val image = dbCursor.getBlob(column)
-                    if (image != null) {
-                        imageView.setImageBitmap(
-                            BitmapFactory.decodeByteArray(
-                                image,
-                                0,
-                                image.size
-                            )
-                        )
+                    val imageUrl = dbCursor.getString(column)
+                    if (imageUrl != null) {
+                        ImagesDownloaderAsync(
+                            imageView,
+                            URL(imageUrl)
+                        ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
                     }
                 }
             }

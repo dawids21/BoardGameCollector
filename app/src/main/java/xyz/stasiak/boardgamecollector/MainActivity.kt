@@ -5,8 +5,6 @@ package xyz.stasiak.boardgamecollector
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +18,10 @@ import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import xyz.stasiak.boardgamecollector.databinding.ActivityMainBinding
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.net.MalformedURLException
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
@@ -207,26 +208,6 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
                             if (currentYear != null && currentName != null && currentBggId != null && currentRank != null) {
-                                var bytes: ByteArray? = null
-                                try {
-                                    if (currentImageUrl != null) {
-                                        val url = URL(currentImageUrl)
-                                        val connection = url.openConnection()
-                                        connection.doInput = true
-                                        connection.connect()
-                                        val input: InputStream = connection.getInputStream()
-                                        val bitmap = BitmapFactory.decodeStream(input)
-                                        val byteArrayOutputStream = ByteArrayOutputStream()
-                                        bitmap?.compress(
-                                            Bitmap.CompressFormat.JPEG,
-                                            100,
-                                            byteArrayOutputStream
-                                        )
-                                        bytes = byteArrayOutputStream.toByteArray()
-                                    }
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
                                 if (currentRank == "Not Ranked" && currentBayesAverage != "Not Ranked") {
                                     extensions.add(
                                         Extension(
@@ -234,7 +215,7 @@ class MainActivity : AppCompatActivity() {
                                             currentName,
                                             currentYear.toInt(),
                                             currentBggId.toLong(),
-                                            bytes
+                                            currentImageUrl
                                         )
                                     )
                                 } else {
@@ -245,7 +226,7 @@ class MainActivity : AppCompatActivity() {
                                             currentYear.toInt(),
                                             currentBggId.toLong(),
                                             if (currentRank != "Not Ranked") currentRank.toInt() else 0,
-                                            bytes
+                                            currentImageUrl
                                         )
                                     )
                                 }
