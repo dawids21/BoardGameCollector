@@ -34,7 +34,7 @@ class SyncFragment : Fragment() {
             val lastSync = boardGameCollectorDbHandler.getLastSync()
             if (lastSync != null && lastSync.after(
                     Date.from(
-                        Instant.now().minusSeconds(60)
+                        Instant.now().minusSeconds(60 * 60 * 24)
                     )
                 )
             ) {
