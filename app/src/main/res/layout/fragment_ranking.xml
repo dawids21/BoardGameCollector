@@ -64,5 +64,13 @@
                 android:textAlignment="center" />
 
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/listOfRanks"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:divider="@color/purple_700"
+            android:dividerHeight="1dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
