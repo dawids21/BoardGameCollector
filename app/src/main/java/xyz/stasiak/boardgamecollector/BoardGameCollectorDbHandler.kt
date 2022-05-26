@@ -15,7 +15,7 @@ class BoardGameCollectorDbHandler(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 6
+        private const val DATABASE_VERSION = 7
         private const val DATABASE_NAME = "boardGameCollectorDB"
     }
 
@@ -45,12 +45,22 @@ class BoardGameCollectorDbHandler(
                     "image BLOB" +
                     ")"
         )
+        db.execSQL(
+            "CREATE TABLE ranks(" +
+                    "rank_id INTEGER PRIMARY KEY," +
+                    "game_id INTEGER," +
+                    "date TEXT," +
+                    "rank INTEGER," +
+                    "FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE CASCADE" +
+                    ")"
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS config")
         db.execSQL("DROP TABLE IF EXISTS games")
         db.execSQL("DROP TABLE IF EXISTS extensions")
+        db.execSQL("DROP TABLE IF EXISTS ranks")
         onCreate(db)
     }
 
@@ -228,5 +238,21 @@ class BoardGameCollectorDbHandler(
         cursor.close()
         readableDatabase.close()
         return count
+    }
+
+    fun addRank(rank: Rank) {
+        val values = ContentValues()
+        values.put("game_id", rank.gameId)
+        values.put("date", getDateFormat().format(rank.date))
+        values.put("rank", rank.value)
+        writableDatabase.insert("ranks", null, values)
+        writableDatabase.close()
+    }
+
+    fun findRanksByGameCursor(gameId: Long): Cursor {
+        return readableDatabase.rawQuery(
+            "SELECT rank_id as _id, date, rank FROM ranks WHERE gameId = ? ORDER BY date",
+            arrayOf(gameId.toString())
+        )
     }
 }
