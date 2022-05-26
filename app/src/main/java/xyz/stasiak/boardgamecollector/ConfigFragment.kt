@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import xyz.stasiak.boardgamecollector.databinding.FragmentConfigBinding
@@ -28,6 +29,10 @@ class ConfigFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.configName.doOnTextChanged { text, _, _, _ ->
+            binding.configBtnStart.isEnabled = text?.isNotEmpty() ?: true
+        }
 
         binding.configBtnStart.setOnClickListener {
             boardGameCollectorDbHandler.createConfig(
