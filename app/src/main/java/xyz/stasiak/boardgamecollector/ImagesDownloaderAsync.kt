@@ -13,6 +13,11 @@ import java.net.URL
 class ImagesDownloaderAsync(private val imageView: ImageView, private val imageUrl: URL) :
     AsyncTask<String, Void, Bitmap>() {
 
+    override fun onPreExecute() {
+        super.onPreExecute()
+        imageView.setImageResource(R.drawable.board_game)
+    }
+
     override fun doInBackground(vararg p0: String?): Bitmap? {
         var bitmap: Bitmap? = null
         try {
