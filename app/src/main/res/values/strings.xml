@@ -42,5 +42,7 @@
     <!-- Ranking fragment -->
     <string name="ranking_fragment">Ranking</string>
     <string name="ranking_image_desc">Image of the game</string>
+    <string name="ranking_list_date">Date</string>
+    <string name="ranking_list_rank">Rank</string>
 
 </resources>
