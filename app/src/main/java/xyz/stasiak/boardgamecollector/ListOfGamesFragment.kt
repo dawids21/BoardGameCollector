@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.SimpleCursorAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -28,6 +27,7 @@ class ListOfGamesFragment : Fragment() {
             val game = boardGameCollectorDbHandler.findGame(gameId) ?: return@setOnItemClickListener
             val bundle = Bundle()
             bundle.putString(RankingFragment.TITLE_PARAM, game.title)
+            bundle.putByteArray(RankingFragment.IMAGE_PARAM, game.image)
             findNavController().navigate(R.id.action_ListOfGamesFragment_to_RankingFragment, bundle)
         }
         return binding.root
@@ -55,7 +55,7 @@ class ListOfGamesFragment : Fragment() {
                     textView.text = dbCursor.getString(column)
                 }
                 R.id.gameImage -> {
-                    val imageView = view as ImageView
+                    val imageView = view as SquareImageView
                     val image = dbCursor.getBlob(column)
                     if (image != null) {
                         imageView.setImageBitmap(

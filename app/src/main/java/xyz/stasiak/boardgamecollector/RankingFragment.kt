@@ -1,5 +1,6 @@
 package xyz.stasiak.boardgamecollector
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +12,19 @@ class RankingFragment : Fragment() {
 
     companion object {
         const val TITLE_PARAM = "title"
+        const val IMAGE_PARAM = "image"
     }
 
     private lateinit var binding: FragmentRankingBinding
 
-    private var gameName: String? = null
+    private var title: String? = null
+    private var image: ByteArray? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            gameName = it.getString(TITLE_PARAM)
+            title = it.getString(TITLE_PARAM)
+            image = it.getByteArray(IMAGE_PARAM)
         }
     }
 
@@ -30,7 +34,18 @@ class RankingFragment : Fragment() {
     ): View {
         binding = FragmentRankingBinding.inflate(inflater, container, false)
 
-        binding.rankingName.text = gameName
+        binding.rankingTitle.text = title
+        if (image != null) {
+            if (image != null) {
+                binding.rankingImage.setImageBitmap(
+                    BitmapFactory.decodeByteArray(
+                        image,
+                        0,
+                        image!!.size
+                    )
+                )
+            }
+        }
         return binding.root
     }
 }
