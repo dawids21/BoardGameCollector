@@ -72,6 +72,8 @@ class MainActivity : AppCompatActivity() {
         AsyncTask<String, Int, String>() {
 
         private lateinit var progressDialog: ProgressDialog
+        private val deletedGames = ArrayList<Long>()
+        private val deletedExtensions = ArrayList<Long>()
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -86,7 +88,10 @@ class MainActivity : AppCompatActivity() {
             AlertDialog.Builder(this@MainActivity)
                 .setTitle("Delete games")
                 .setMessage("Do you want to delete games and extensions?")
-                .setPositiveButton("Yes") { _, _ -> println("Deleting...") }
+                .setPositiveButton("Yes") { _, _ ->
+                    deletedGames.forEach { boardGameCollectorDbHandler.deleteGame(it) }
+                    deletedExtensions.forEach { boardGameCollectorDbHandler.deleteExtension(it) }
+                }
                 .setNegativeButton("No", null)
                 .show()
         }

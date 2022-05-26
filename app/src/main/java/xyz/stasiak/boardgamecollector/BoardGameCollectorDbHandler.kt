@@ -167,8 +167,8 @@ class BoardGameCollectorDbHandler(
         )
     }
 
-    fun deleteGame(gameId: Long) {
-        writableDatabase.delete("games", "game_id = ?", arrayOf(gameId.toString()))
+    fun deleteGame(bggId: Long) {
+        writableDatabase.delete("games", "bgg_id = ?", arrayOf(bggId.toString()))
     }
 
     fun deleteGames() {
@@ -210,8 +210,8 @@ class BoardGameCollectorDbHandler(
         cursor.close()
     }
 
-    fun deleteExtension(extensionId: Long) {
-        writableDatabase.delete("extensions", "extension_id = ?", arrayOf(extensionId.toString()))
+    fun deleteExtension(bggId: Long) {
+        writableDatabase.delete("extensions", "bgg_id = ?", arrayOf(bggId.toString()))
     }
 
     fun deleteExtensions() {
