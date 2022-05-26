@@ -209,19 +209,21 @@ class MainActivity : AppCompatActivity() {
                             if (currentYear != null && currentName != null && currentBggId != null && currentRank != null) {
                                 var bytes: ByteArray? = null
                                 try {
-                                    val url = URL(currentImageUrl)
-                                    val connection = url.openConnection()
-                                    connection.doInput = true
-                                    connection.connect()
-                                    val input: InputStream = connection.getInputStream()
-                                    val bitmap = BitmapFactory.decodeStream(input)
-                                    val byteArrayOutputStream = ByteArrayOutputStream()
-                                    bitmap?.compress(
-                                        Bitmap.CompressFormat.JPEG,
-                                        100,
-                                        byteArrayOutputStream
-                                    )
-                                    bytes = byteArrayOutputStream.toByteArray()
+                                    if (currentImageUrl != null) {
+                                        val url = URL(currentImageUrl)
+                                        val connection = url.openConnection()
+                                        connection.doInput = true
+                                        connection.connect()
+                                        val input: InputStream = connection.getInputStream()
+                                        val bitmap = BitmapFactory.decodeStream(input)
+                                        val byteArrayOutputStream = ByteArrayOutputStream()
+                                        bitmap?.compress(
+                                            Bitmap.CompressFormat.JPEG,
+                                            100,
+                                            byteArrayOutputStream
+                                        )
+                                        bytes = byteArrayOutputStream.toByteArray()
+                                    }
                                 } catch (e: IOException) {
                                     e.printStackTrace()
                                 }
