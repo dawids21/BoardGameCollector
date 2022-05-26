@@ -91,9 +91,11 @@ class MainActivity : AppCompatActivity() {
                 .setPositiveButton("Yes") { _, _ ->
                     deletedGames.forEach { boardGameCollectorDbHandler.deleteGame(it) }
                     deletedExtensions.forEach { boardGameCollectorDbHandler.deleteExtension(it) }
+                    updateFragments()
                 }
                 .setNegativeButton("No", null)
                 .show()
+            updateFragments()
         }
 
         override fun doInBackground(vararg args: String?): String {
@@ -249,9 +251,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            val previousGamesBggIds = boardGameCollectorDbHandler.findGameBggIds()
+            val previousExtensionsBggIds = boardGameCollectorDbHandler.findExtensionBggIds()
+            val currentGamesBggIds = games.map { it.bggId }
+            val currentExtensionsBggIds = extensions.map { it.bggId }
+            deletedGames.addAll(previousGamesBggIds)
+            deletedGames.removeAll(currentGamesBggIds.toSet())
+            deletedExtensions.addAll(previousExtensionsBggIds)
+            deletedExtensions.removeAll(currentExtensionsBggIds.toSet())
+
             games.forEach { boardGameCollectorDbHandler.addGame(it) }
             extensions.forEach { boardGameCollectorDbHandler.addExtension(it) }
-            updateFragments()
             return "success"
         }
     }

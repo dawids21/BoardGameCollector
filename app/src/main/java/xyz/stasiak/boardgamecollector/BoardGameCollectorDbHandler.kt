@@ -181,7 +181,16 @@ class BoardGameCollectorDbHandler(
     }
 
     fun deleteGame(bggId: Long) {
-        writableDatabase.delete("games", "bgg_id = ?", arrayOf(bggId.toString()))
+        val cursor = writableDatabase.rawQuery(
+            "SELECT game_id FROM games WHERE bgg_id = ?",
+            arrayOf(bggId.toString())
+        )
+        if (cursor.moveToFirst()) {
+            val gameId = cursor.getLong(cursor.getColumnIndexOrThrow("game_id"))
+            writableDatabase.delete("games", "game_id = ?", arrayOf(gameId.toString()))
+            writableDatabase.delete("ranks", "game_id = ?", arrayOf(gameId.toString()))
+        }
+        cursor.close()
     }
 
     fun deleteGames() {
