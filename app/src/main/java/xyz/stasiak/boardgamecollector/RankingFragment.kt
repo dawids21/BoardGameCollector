@@ -10,7 +10,7 @@ import xyz.stasiak.boardgamecollector.databinding.FragmentRankingBinding
 class RankingFragment : Fragment() {
 
     companion object {
-        private const val GAME_NAME = "gameName"
+        const val TITLE_PARAM = "title"
     }
 
     private lateinit var binding: FragmentRankingBinding
@@ -20,7 +20,7 @@ class RankingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            gameName = it.getString(GAME_NAME)
+            gameName = it.getString(TITLE_PARAM)
         }
     }
 
