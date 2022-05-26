@@ -167,6 +167,19 @@ class BoardGameCollectorDbHandler(
         )
     }
 
+    fun findGameBggIds(): List<Long> {
+        val cursor = writableDatabase.rawQuery("SELECT bgg_id FROM games", arrayOf())
+        if (!cursor.moveToFirst()) {
+            cursor.close()
+            return listOf()
+        }
+        val ids = ArrayList<Long>()
+        do {
+            ids.add(cursor.getLong(cursor.getColumnIndexOrThrow("bgg_id")))
+        } while (cursor.moveToNext())
+        return ids
+    }
+
     fun deleteGame(bggId: Long) {
         writableDatabase.delete("games", "bgg_id = ?", arrayOf(bggId.toString()))
     }
@@ -221,6 +234,19 @@ class BoardGameCollectorDbHandler(
     fun findExtensionsCursor(): Cursor {
         val query = "SELECT extension_id as _id, title, year, image FROM extensions"
         return readableDatabase.rawQuery(query, null)
+    }
+
+    fun findExtensionBggIds(): List<Long> {
+        val cursor = writableDatabase.rawQuery("SELECT bgg_id FROM extensions", arrayOf())
+        if (!cursor.moveToFirst()) {
+            cursor.close()
+            return listOf()
+        }
+        val ids = ArrayList<Long>()
+        do {
+            ids.add(cursor.getLong(cursor.getColumnIndexOrThrow("bgg_id")))
+        } while (cursor.moveToNext())
+        return ids
     }
 
     fun countExtensions(): Int {
