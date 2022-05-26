@@ -49,6 +49,7 @@ class MainFragment : Fragment() {
             boardGameCollectorDbHandler.deleteConfig()
             boardGameCollectorDbHandler.deleteGames()
             boardGameCollectorDbHandler.deleteExtensions()
+            boardGameCollectorDbHandler.deleteRanks()
             findNavController().navigate(R.id.action_MainFragment_to_ConfigFragment)
         }
     }

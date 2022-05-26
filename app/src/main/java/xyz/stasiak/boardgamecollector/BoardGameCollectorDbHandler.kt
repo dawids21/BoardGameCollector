@@ -255,4 +255,9 @@ class BoardGameCollectorDbHandler(
             arrayOf(gameId.toString())
         )
     }
+
+    fun deleteRanks() {
+        writableDatabase.execSQL("DELETE FROM ranks")
+        writableDatabase.close()
+    }
 }
