@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.util.*
 
 class BoardGameCollectorDbHandler(
@@ -69,7 +70,6 @@ class BoardGameCollectorDbHandler(
         values.put("name", userName.name)
         values.put("last_sync", getDateFormat().format(lastSync))
         writableDatabase.insert("config", null, values)
-        writableDatabase.close()
     }
 
     fun getName(): UserName? {
@@ -83,20 +83,17 @@ class BoardGameCollectorDbHandler(
             }
             cursor.close()
         }
-        writableDatabase.close()
         return userName
     }
 
     fun deleteConfig() {
         writableDatabase.execSQL("DELETE FROM config")
-        writableDatabase.close()
     }
 
     fun isNameSet(): Boolean {
         val cursor = readableDatabase.rawQuery("SELECT name FROM config", null)
         val count = cursor.count
         cursor.close()
-        readableDatabase.close()
         return count == 1
     }
 
@@ -117,7 +114,6 @@ class BoardGameCollectorDbHandler(
             }
             cursor.close()
         }
-        writableDatabase.close()
         return lastSync
     }
 
@@ -137,17 +133,19 @@ class BoardGameCollectorDbHandler(
             arrayOf(game.bggId.toString())
         )
         if (cursor.moveToFirst()) {
+            val gameId = cursor.getLong(cursor.getColumnIndexOrThrow("game_id"))
             writableDatabase.update(
                 "games",
                 values,
                 "game_id = ?",
-                arrayOf(cursor.getLong(0).toString())
+                arrayOf(gameId.toString())
             )
+            addRank(Rank(null, gameId, Date.from(Instant.now()), game.rank))
         } else {
-            writableDatabase.insert("games", null, values)
+            val gameId = writableDatabase.insert("games", null, values)
+            addRank(Rank(null, gameId, Date.from(Instant.now()), game.rank))
         }
         cursor.close()
-        writableDatabase.close()
     }
 
     fun findGame(gameId: Long): Game? {
@@ -157,7 +155,6 @@ class BoardGameCollectorDbHandler(
         )
         if (!cursor.moveToFirst()) {
             cursor.close()
-            writableDatabase.close()
             return null
         }
         return Game(
@@ -172,12 +169,10 @@ class BoardGameCollectorDbHandler(
 
     fun deleteGame(gameId: Long) {
         writableDatabase.delete("games", "game_id = ?", arrayOf(gameId.toString()))
-        writableDatabase.close()
     }
 
     fun deleteGames() {
         writableDatabase.execSQL("DELETE FROM games")
-        writableDatabase.close()
     }
 
     fun findGamesCursor(): Cursor {
@@ -189,7 +184,6 @@ class BoardGameCollectorDbHandler(
         val cursor = readableDatabase.rawQuery("SELECT game_id FROM games", null)
         val count = cursor.count
         cursor.close()
-        readableDatabase.close()
         return count
     }
 
@@ -214,17 +208,14 @@ class BoardGameCollectorDbHandler(
             writableDatabase.insert("extensions", null, values)
         }
         cursor.close()
-        writableDatabase.close()
     }
 
     fun deleteExtension(extensionId: Long) {
         writableDatabase.delete("extensions", "extension_id = ?", arrayOf(extensionId.toString()))
-        writableDatabase.close()
     }
 
     fun deleteExtensions() {
         writableDatabase.execSQL("DELETE FROM extensions")
-        writableDatabase.close()
     }
 
     fun findExtensionsCursor(): Cursor {
@@ -236,7 +227,6 @@ class BoardGameCollectorDbHandler(
         val cursor = readableDatabase.rawQuery("SELECT extension_id FROM extensions", null)
         val count = cursor.count
         cursor.close()
-        readableDatabase.close()
         return count
     }
 
@@ -246,7 +236,6 @@ class BoardGameCollectorDbHandler(
         values.put("date", getDateFormat().format(rank.date))
         values.put("rank", rank.value)
         writableDatabase.insert("ranks", null, values)
-        writableDatabase.close()
     }
 
     fun findRanksByGameCursor(gameId: Long): Cursor {
@@ -258,6 +247,5 @@ class BoardGameCollectorDbHandler(
 
     fun deleteRanks() {
         writableDatabase.execSQL("DELETE FROM ranks")
-        writableDatabase.close()
     }
 }
