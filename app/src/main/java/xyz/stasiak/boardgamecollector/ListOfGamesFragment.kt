@@ -24,7 +24,7 @@ class ListOfGamesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListOfGamesBinding.inflate(inflater, container, false)
-        binding.listOfGames.setOnItemClickListener { parent, view, position, gameId ->
+        binding.listOfGames.setOnItemClickListener { _, _, _, gameId ->
             val game = boardGameCollectorDbHandler.findGame(gameId) ?: return@setOnItemClickListener
             val bundle = Bundle()
             bundle.putString(RankingFragment.TITLE_PARAM, game.title)
