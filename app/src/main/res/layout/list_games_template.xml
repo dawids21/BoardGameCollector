@@ -20,7 +20,7 @@
         android:layout_gravity="center"
         android:layout_weight="2"
         android:contentDescription="@string/list_game_image_desc"
-        android:src="@mipmap/ic_board_game" />
+        android:src="@drawable/board_game" />
 
     <TextView
         android:id="@+id/gameTitle"
