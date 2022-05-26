@@ -39,15 +39,15 @@ class SyncFragment : Fragment() {
                 )
             ) {
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Do you want to synchronize?")
-                    .setMessage("Rankings are updated once per day.")
-                    .setPositiveButton("Yes") { _, _ ->
+                    .setTitle(R.string.sync_dialog_title)
+                    .setMessage(R.string.sync_dialog_message)
+                    .setPositiveButton(R.string.sync_dialog_yes) { _, _ ->
                         val mainActivity = activity as MainActivity
                         mainActivity.downloadData()
                         boardGameCollectorDbHandler.setLastSync(Date.from(Instant.now()))
                         findNavController().navigateUp()
                     }
-                    .setNegativeButton("No", null)
+                    .setNegativeButton(R.string.sync_dialog_no, null)
                     .show()
             } else {
                 val mainActivity = activity as MainActivity

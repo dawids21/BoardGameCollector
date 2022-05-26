@@ -38,6 +38,10 @@
     <!-- Synchronization fragment -->
     <string name="sync_fragment">Synchronization</string>
     <string name="sync_btn_start_syncing">Start syncing</string>
+    <string name="sync_dialog_title">Do you want to synchronize?</string>
+    <string name="sync_dialog_message">Rankings are updated once per day.</string>
+    <string name="sync_dialog_yes">Yes</string>
+    <string name="sync_dialog_no">No</string>
 
     <!-- Ranking fragment -->
     <string name="ranking_fragment">Ranking</string>
