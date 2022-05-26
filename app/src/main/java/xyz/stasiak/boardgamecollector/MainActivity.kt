@@ -22,6 +22,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
@@ -104,10 +105,18 @@ class MainActivity : AppCompatActivity() {
         override fun doInBackground(vararg args: String?): String {
             try {
                 val url =
-                    URL("https://www.boardgamegeek.com/xmlapi2/collection?username=${args[0]}&stats=1")
-                val connection = url.openConnection()
-                connection.connect()
-                val lengthOfFile = connection.contentLength
+                    URL("https://boardgamegeek.com/xmlapi2/collection?username=${args[0]}&stats=1")
+                var lengthOfFile = 0
+                for (i in 0..3) {
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.connect()
+                    if (connection.responseCode != HttpURLConnection.HTTP_ACCEPTED) {
+                        lengthOfFile = connection.contentLength
+                        break
+                    }
+                    connection.disconnect()
+                    Thread.sleep(3000)
+                }
                 val stream = url.openStream()
                 val testDirectory = File("$filesDir/XML")
                 if (!testDirectory.exists()) testDirectory.mkdir()
